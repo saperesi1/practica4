@@ -36,7 +36,6 @@ public class ej1 {
     public boolean hasMoreTokens() {
         return posActual < cadena.length();
     }
-
     public Token nextToken() {
         if (posActual >= cadena.length()) {
             return null; // No hay más tokens
@@ -44,24 +43,41 @@ public class ej1 {
 
         char currentChar = cadena.charAt(posActual);
         Token token = null;
-       // Verificar el carácter actual y asignar el token correspondiente
+
+        // Verificar el carácter actual y asignar el token correspondiente
         switch (currentChar) {
             case 'a':
-                token = new Token("cero",null);
+                token = new Token("cero", null);
                 break;
             case 'b':
-                token = new Token("uno",null);
+                token = new Token("uno", null);
                 break;
             case 'c':
-                token = new Token("cuatro",null);
+                token = new Token("cuatro", null);
+                break;
+            case '(':
+                int closingParenthesisIndex = cadena.indexOf(')', posActual);
+                if (closingParenthesisIndex != -1) {
+                    String substring = cadena.substring(posActual, closingParenthesisIndex + 1);
+                    if (substring.equals("((a)*)((b)+)")) {
+                        token = new Token("tres", null);
+                        posActual = closingParenthesisIndex; // Avanzar a la posición posterior al paréntesis de cierre
+                    } else if (substring.equals("((a)*)((c)+)")) {
+                        token = new Token("tres", null);
+                        posActual = closingParenthesisIndex; // Avanzar a la posición posterior al paréntesis de cierre
+                    }
+                }
                 break;
             default:
-                token = new Token("desconocido",null);
+                token = new Token("desconocido", null);
                 break;
         }
 
-        historico.add(token);// Agregar el token reconocido al historial
-        posActual++; // Avanzar a la siguiente posición de la cadena
+        historico.add(token);   // Agregar el token reconocido al historial
+        posActual++;            // Avanzar a la siguiente posición de la cadena
         return token;
     }
+
+
+
 }
